@@ -108,7 +108,7 @@ def handle_cb_change(button):
 def start(preview = None):
     cb_values = [cb["var"].get() for cb in cb_arr]
     file_contents = get_file_content_bytes(file_path)
-    out_data = file_contents.decode()
+    out_data = ""
     generate_file = False
     
     if (cb_values[0] or cb_values[1]) and (cb_values[2] or cb_values[3]):
@@ -127,6 +127,8 @@ def start(preview = None):
         generate_file = True
     
     if cb_values[1]:
+        if not cb_values[0]:
+            out_data += file_contents.decode()
         file_digest = get_hash(file_path)
         priv_key, _ = get_keys()
         hsh_enc = sign(file_digest.encode(), priv_key.encode())
